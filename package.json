@@ -1,23 +1,20 @@
 {
-  "name": "electron-quick-start",
+  "name": "synology-control",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Electron app to control your synology NAS",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dev": "webpack -d --watch",
     "build": "webpack -p"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/amiceli/synology-control.git",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "synology"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "miceliantoine@protonmail.com",
+  "license": "WTFPL",
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
