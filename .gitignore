@@ -3,3 +3,4 @@ src/public/*
 npm-debug.log.*
 .idea/
 synology-control.iml
+my.db
