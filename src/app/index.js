@@ -1,11 +1,10 @@
 import React from 'react';
 import {render} from 'react-dom';
-
+import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-
-import MainVue from './MainVue.jsx'
+import AppMenu from './AppMenu.jsx'
 
 injectTapEventPlugin();
 
@@ -16,7 +15,7 @@ class App extends React.Component {
         return (
             <div>
                 <MuiThemeProvider>
-                    <MainVue />
+                    <AppBar className="AppBar" iconElementLeft={<AppMenu/>}/>
                 </MuiThemeProvider>
             </div>
         );

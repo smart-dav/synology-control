@@ -1,30 +1,31 @@
-var express = require('express');
-var app = express();
+let express = require('express');
+let app = express();
+let bodyParser = require('body-parser');
+let axios = require('axios');
 
-var flatfile = require('flat-file-db');
-var db = flatfile('my.db');
 
-app.get('/', function (req, res) {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-    db.on('open', function() {
-        let hello = db.get('hello')
+let Datastore = require('nedb');
+let db = new Datastore({filename: 'mydb', autoload: true});
 
-        if (hello) {
-            res.json({
-                hello
-            })
-        } else {
-            res.json({
-                couille : 'bite'
-            })
-        }
+app.post('/config', function (req, res) {
 
-        // db.put('hey', {world:2}, function() {
-        //     // 'hey' is now fully persisted
-        // });
+    let synologyIP = 'http://' + req.body.synologyIP + ':' + req.body.synologyPort;
+
+    axios.get(synologyIP).then(function () {
+        res.json({
+            status: true
+        })
+    }).catch(function () {
+        res.json({
+            status: false
+        })
     });
+
 });
 
 app.listen(9000, function () {
-    console.log('Hello World listening on port 3000!');
+    console.log('Hello World listening on port 9000!');
 });
