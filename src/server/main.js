@@ -10,14 +10,27 @@ app.use(bodyParser.urlencoded({extended: true}));
 let Datastore = require('nedb');
 let db = new Datastore({filename: 'mydb', autoload: true});
 
+app.get('/config', function (req, res) {
+
+    let apiName = req.query.apiName;
+
+    db.find({apiName: apiName}, function (err, apiConfig) {
+
+        // by default nedb return empty array if nothing is found, we transform to null
+        let config = apiConfig.length == 0 ? null : apiConfig[0].apiConfig;
+
+        res.json({config});
+    });
+
+});
+
 app.post('/config', function (req, res) {
 
     let apiName = req.body.apiName;
+    let apiConfig = req.body.apiConfig;
 
-    db.find({apiName: apiName}, function (err, apiConfig) {
-        res.json({
-            apiConfig: apiConfig.length == 0 ? null : apiConfig // by default nedb return empty array if nothing is found, we transform to null
-        });
+    db.insert({apiName, apiConfig}, function (err, configInserted) {
+        res.json(configInserted)
     });
 
 });
