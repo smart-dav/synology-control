@@ -12,16 +12,12 @@ let db = new Datastore({filename: 'mydb', autoload: true});
 
 app.post('/config', function (req, res) {
 
-    let synologyIP = 'http://' + req.body.synologyIP + ':' + req.body.synologyPort;
+    let apiName = req.body.apiName;
 
-    axios.get(synologyIP).then(function () {
+    db.find({apiName: apiName}, function (err, apiConfig) {
         res.json({
-            status: true
-        })
-    }).catch(function () {
-        res.json({
-            status: false
-        })
+            apiConfig: apiConfig.length == 0 ? null : apiConfig // by default nedb return empty array if nothing is found, we transform to null
+        });
     });
 
 });

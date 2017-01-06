@@ -1,13 +1,18 @@
 import axios from 'axios';
 
 class ConfigService {
+
     constructor() {
-        console.log(axios);
+        this.config = {};
     }
 
-    checkConfig(state) {
-         return axios.post("http://localhost:9000/config", state).then((result) => {
-            return result.data.status;
+    getConfigForApi(apiName) {
+        let self = this;
+
+        return axios.post("http://localhost:9000/config", {apiName}).then((result) => {
+            self.config[apiName] = result.data;
+
+            return self.config[apiName];
         })
     }
 }
