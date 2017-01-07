@@ -1,11 +1,21 @@
 import axios from 'axios';
 
+/**
+ * Service to manage apis config
+ */
 class ConfigService {
 
     constructor() {
         this.config = {};
     }
 
+    /**
+     * Get synology api information from backend
+     *
+     * @param {string} apiName api name like downloadStation
+     *
+     * @returns {Promise} return a promise with returned data null or object
+     */
     getConfigForApi(apiName) {
         let self = this;
 
@@ -16,6 +26,14 @@ class ConfigService {
         })
     }
 
+    /**
+     * Update api information
+     *
+     * @param {string} apiName api name like downloadStation
+     * @param {object} apiConfig new config
+     *
+     * @returns {Promise} return a promise with returned data null or object
+     */
     updateConfigForApi(apiName, apiConfig) {
         let self = this;
 
