@@ -1,13 +1,14 @@
 import React from 'react';
 import ConfigService from '../Service/ConfigService';
 import ConfigInterface from './ConfigInterface.jsx';
+import DownloadStationApiService from '../Service/Api/DownloadStationApiService';
 
 class DownloadStationInterface extends React.Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {config: null};
+        this.state = {config: null, tasks: []};
 
         this.service = new ConfigService();
     }
@@ -23,6 +24,10 @@ class DownloadStationInterface extends React.Component {
 
         this.service.getConfigForApi('downloadStation').then((res) => {
             self.setState({config: res.config});
+
+            if (this.state.config != null) {
+                self.loadTasks();
+            }
         });
     }
 
@@ -41,6 +46,17 @@ class DownloadStationInterface extends React.Component {
         })
     }
 
+    loadTasks() {
+        let api = new DownloadStationApiService(this.state.config);
+        let self = this;
+
+        api.loadTask().then((tasks) => {
+            self.setState({
+                tasks: tasks
+            })
+        })
+    }
+
     /**
      * If config is empty user needs to specify synology Download Station config like URL and PORT
      * If config is found, we display Download Station manage interface
@@ -48,21 +64,30 @@ class DownloadStationInterface extends React.Component {
      * @see ConfigInterface
      */
     getVueAccordingToConfig() {
-        let vue = null;
         if (this.state.config == null) {
             return (
                 <ConfigInterface onSave={this.saveConfig.bind(this)}/>
             )
         } else {
+            this.loadTasks();
+            let tasksList = this.getTasksListVue();
+
             return (
-                <h1>ok</h1>
+                <ul>
+                    {tasksList}
+                </ul>
             )
         }
     }
 
+    getTasksListVue() {
+        return this.state.tasks.map(function (task, index) {
+            return <li key={task.id}>{task.title} / {task.status}</li>;
+        })
+    }
+
     render() {
         let vue = this.getVueAccordingToConfig();
-
         return (
             <div>
                 {vue}

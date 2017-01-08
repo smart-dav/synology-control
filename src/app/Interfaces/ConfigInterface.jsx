@@ -30,7 +30,9 @@ class ConfigInterface extends React.Component {
 
         this.state = {
             synologyURL: '',
-            synologyPort: ''
+            synologyPort: '',
+            account: '',
+            password: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,6 +64,12 @@ class ConfigInterface extends React.Component {
                 <br />
                 <TextField hintText="Synology port like 500" style={TextFieldStyle}
                            onChange={this.handleChange.bind(this, 'synologyPort')}/>
+                <br/>
+                <TextField hintText="Synology port like 500" style={TextFieldStyle}
+                           onChange={this.handleChange.bind(this, 'account')}/>
+                <br />
+                <TextField hintText="Synology port like 500" style={TextFieldStyle}
+                           onChange={this.handleChange.bind(this, 'password')} type="password"/>
                 <br/>
                 <RaisedButton primary={true} label="Save" value={this.state.synologyURL} style={style}
                               onClick={this.handleSubmit.bind(this)}/>
