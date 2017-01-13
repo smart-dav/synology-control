@@ -6,6 +6,9 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import FileCloudDownload from 'material-ui/svg-icons/file/cloud-download';
+import AvPause from 'material-ui/svg-icons/av/pause';
+import QueryBuilder from 'material-ui/svg-icons/action/query-builder';
 
 const iconButtonElement = (
     <IconButton
@@ -43,15 +46,26 @@ class TaskListInterface extends React.Component {
         );
     }
 
+    getIconByTaskStatus (status) {
+        switch(status) {
+            case 'finished':
+                return <NavigationCheck />;
+            case 'downloading':
+                return <FileCloudDownload />;
+            case 'waiting':
+                return <AvPause />;
+            case 'paused':
+                return <QueryBuilder />;
+        }
+    }
 
     getTaskListChild() {
         let self = this;
 
-
         return this.state.tasks.map(function (task, index) {
             return <ListItem primaryText={task.title} key={task.id}
                              rightIconButton={self.getRightIcon(task.id)}
-                             leftIcon={<NavigationCheck />}
+                             leftIcon={self.getIconByTaskStatus(task.status)}
             />
         })
     }

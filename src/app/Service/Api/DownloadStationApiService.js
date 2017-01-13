@@ -23,6 +23,14 @@ class DownloadStationApiService extends ApiService {
 
     }
 
+    deleteTask (taskId) {
+
+    }
+
+    pauseTask (taskId) {
+
+    }
+
     _getTasks() {
         let methodConfig = {
             name: 'Task',
