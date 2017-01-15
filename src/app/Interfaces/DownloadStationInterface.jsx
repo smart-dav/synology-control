@@ -3,6 +3,7 @@ import ConfigService from '../Service/ConfigService';
 import ConfigInterface from './ConfigInterface.jsx';
 import DownloadStationApiService from '../Service/Api/DownloadStationApiService';
 import TaskListInterface from './List/TaskListInterface.jsx';
+import DownloadStationHeaderInterface from './Header/DownloadStationHeaderInterface.jsx';
 
 class DownloadStationInterface extends React.Component {
 
@@ -67,11 +68,16 @@ class DownloadStationInterface extends React.Component {
     getVueAccordingToConfig() {
         if (this.state.config == null) {
             return (
-                <ConfigInterface onSave={this.saveConfig.bind(this)}/>
+                <div>
+                    <ConfigInterface onSave={this.saveConfig.bind(this)}/>
+                </div>
             )
         } else {
             return (
-                <TaskListInterface tasks={this.state.tasks}/>
+                <div className="sc__downloadStation__TaskList">
+                    <DownloadStationHeaderInterface />
+                    <TaskListInterface tasks={this.state.tasks}/>
+                </div>
             )
         }
     }
@@ -80,7 +86,7 @@ class DownloadStationInterface extends React.Component {
         let vue = this.getVueAccordingToConfig();
 
         return (
-            <div>
+            <div className="sc__downloadStation">
                 {vue}
             </div>
         )
