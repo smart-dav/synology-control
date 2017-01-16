@@ -1,30 +1,36 @@
-let initializeConfigRoutes = (app, db) => {
+import ConfigStore from '../Services/Database/ConfigStore.js';
 
-    app.get('/config', (req, res) => {
+class ConfigController {
+    constructor(app) {
+        this.configStore = new ConfigStore();
 
-        let apiName = req.query.apiName;
+        this.bindRoutes(app);
+    }
 
-        db.find({apiName: apiName}, (err, apiConfig) => {
+    bindRoutes(app) {
+        app.get('/config', (req, res) => {
 
-            // by default nedb return empty array if nothing is found, we transform to null
-            let config = apiConfig.length == 0 ? null : apiConfig[0].apiConfig;
+            let apiName = req.query.apiName;
 
-            res.json({config});
+            this.configStore.getConfigByApiName(apiName, (apiConfig) => {
+                let config = apiConfig.length == 0 ? null : apiConfig[0].apiConfig;
+
+                res.json({config});
+            });
+
         });
 
-    });
+        app.post('/config', (req, res) => {
 
-    app.post('/config', (req, res) => {
+            let apiName = req.body.apiName;
+            let apiConfig = req.body.apiConfig;
 
-        let apiName = req.body.apiName;
-        let apiConfig = req.body.apiConfig;
+            this.configStore.setApiConfig(apiName, apiConfig, (configInserted) => {
+                res.json({configInserted});
+            })
 
-        db.insert({apiName, apiConfig}, (err, configInserted) => {
-            res.json(configInserted)
         });
+    }
+}
 
-    });
-
-};
-
-module.exports = initializeConfigRoutes;
+module.exports = ConfigController;
