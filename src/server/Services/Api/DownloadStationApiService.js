@@ -1,4 +1,4 @@
-import ApiService from './ApiService';
+import ApiService from './ApiService.js';
 import axios from 'axios';
 
 class DownloadStationApiService extends ApiService {
@@ -8,30 +8,15 @@ class DownloadStationApiService extends ApiService {
         super(options);
     }
 
-    loadTask() {
-        if (this.isLogged) {
-            return this._getTasks();
-        } else {
-            let self = this;
-
-            return this.login().then((res) => {
-                self.isLogged = true;
-
-                return this._getTasks();
-            });
-        }
+    deleteTask(taskId) {
 
     }
 
-    deleteTask (taskId) {
+    pauseTask(taskId) {
 
     }
 
-    pauseTask (taskId) {
-
-    }
-
-    _getTasks() {
+    getTasks() {
         let methodConfig = {
             name: 'Task',
             options: [
@@ -47,11 +32,6 @@ class DownloadStationApiService extends ApiService {
             return res.data.data.tasks;
         })
     }
-
-    login() {
-        return axios.get(this.getLoginUrl());
-    }
-
 
 }
 
