@@ -52,7 +52,7 @@ class DownloadStationInterface extends React.Component {
         let api = new DownloadStationApiService(this.state.config);
         let self = this;
 
-        api.loadTask().then((tasks) => {
+        api.getTasks().then((tasks) => {
             self.setState({
                 tasks: tasks
             });
