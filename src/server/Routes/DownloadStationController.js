@@ -5,23 +5,24 @@ class DownloadStationController {
 
     constructor(app) {
         this.configStore = new ConfigStore();
-        let self = this;
-
-        this.configStore.getConfigByApiName('downloadStation', (apiConfig) => {
-            self.bindRoutes(app, apiConfig);
-        });
+        this.bindRoutes(app);
     }
 
-    bindRoutes(app, apiConfig) {
-
-        let downloadStationApiService = new DownloadStationApiService(apiConfig);
+    bindRoutes(app) {
+        let self = this;
 
         app.get('/tasks', (req, res) => {
 
-            downloadStationApiService.getTasks().then((tasks) => {
-                console.log ('tasks : ', tasks);
-                res.json({tasks});
-            })
+            // We get config each time, because config can change
+            self.configStore.getConfigByApiName('downloadStation', (apiConfig) => {
+
+                let downloadStationApiService = new DownloadStationApiService(apiConfig);
+
+                downloadStationApiService.getTasks().then((tasks) => {
+                    res.json({tasks});
+                });
+
+            });
 
         });
     }

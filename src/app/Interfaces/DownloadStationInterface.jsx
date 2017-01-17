@@ -24,8 +24,10 @@ class DownloadStationInterface extends React.Component {
     componentDidMount() {
         let self = this;
 
+        console.log ("ici");
+
         this.service.getConfigForApi('downloadStation').then((res) => {
-            self.setState({config: res.config});
+            self.setState({config: res});
 
             if (this.state.config != null) {
                 self.loadTasks();
@@ -52,9 +54,9 @@ class DownloadStationInterface extends React.Component {
         let api = new DownloadStationApiService(this.state.config);
         let self = this;
 
-        api.getTasks().then((tasks) => {
+        api.getTasks().then((response) => {
             self.setState({
-                tasks: tasks
+                tasks: response.data.tasks
             });
         })
     }

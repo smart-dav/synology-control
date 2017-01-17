@@ -1,9 +1,16 @@
-let Datastore = require('nedb');
+let instance = null;
 
 class ConfigStore {
 
-    constructor() {
-        this.db = new Datastore({filename: 'mydb', autoload: true});
+    constructor(db) {
+        if (!instance) {
+            instance = this;
+        }
+
+        this.db = db;
+        this.configs = [];
+
+        return instance;
     }
 
     getConfigByApiName(apiName, callback) {

@@ -13,9 +13,7 @@ class ConfigController {
             let apiName = req.query.apiName;
 
             this.configStore.getConfigByApiName(apiName, (apiConfig) => {
-                let config = apiConfig.length == 0 ? null : apiConfig[0].apiConfig;
-
-                res.json({config});
+                res.json(apiConfig);
             });
 
         });
