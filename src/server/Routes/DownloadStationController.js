@@ -25,6 +25,22 @@ class DownloadStationController {
             });
 
         });
+
+        app.post('/tasks.clear', (req, res) => {
+
+            let tasksId = req.body.tasksId;
+
+            self.configStore.getConfigByApiName('downloadStation', (apiConfig) => {
+
+                let downloadStationApiService = new DownloadStationApiService(apiConfig);
+
+                downloadStationApiService.clearTasks(tasksId).then((response) => {
+                    res.json({response});
+                })
+
+            });
+
+        });
     }
 }
 

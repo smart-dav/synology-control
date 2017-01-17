@@ -24,8 +24,6 @@ class DownloadStationInterface extends React.Component {
     componentDidMount() {
         let self = this;
 
-        console.log ("ici");
-
         this.service.getConfigForApi('downloadStation').then((res) => {
             self.setState({config: res});
 
@@ -77,11 +75,32 @@ class DownloadStationInterface extends React.Component {
         } else {
             return (
                 <div className="sc__downloadStation__TaskList">
-                    <DownloadStationHeaderInterface />
+                    <DownloadStationHeaderInterface removeTasks={this.removeTasks.bind(this)}
+                                                    clearTasks={this.clearTasks.bind(this)}/>
                     <TaskListInterface tasks={this.state.tasks}/>
                 </div>
             )
         }
+    }
+
+    removeTasks() {
+        console.log("removeTasks");
+    }
+
+    clearTasks() {
+        let tasksId = this.state.tasks.map(function (item, index) {
+            return item.id
+        });
+
+        let api = new DownloadStationApiService(this.state.config);
+        let self = this;
+
+        api.clearTasks(tasksId.join(',')).then((res) => {
+            console.log('tasks clear', res);
+            self.loadTasks();
+        });
+
+        // tasksId.join(',')
     }
 
     render() {

@@ -16,6 +16,24 @@ class DownloadStationApiService extends ApiService {
 
     }
 
+    clearTasks(tasksAsId) {
+        let methodConfig = {
+            name: 'Task',
+            options: [
+                {name: 'version', value: 1},
+                {name: 'method', value: 'delete'},
+                {name: 'id', value : tasksAsId}, // like dbid_001,dbid_002
+                {name: 'force_complete', value: 'false'}
+            ]
+        };
+
+        let url = super.getTaskUrl(methodConfig);
+
+        return axios.get(url).then((res) => {
+            return res;
+        })
+    }
+
     getTasks() {
         let methodConfig = {
             name: 'Task',

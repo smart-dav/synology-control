@@ -1,29 +1,25 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import DownloadStationApiService from '../../Service/Api/DownloadStationApiService.js';
 
 class DownloadStationHeaderInterface extends React.Component {
 
     constructor(props) {
         super(props);
-    }
 
-    clearTaskList() {
-        console.log("clear list");
-    }
-
-    removeAllTask () {
-        console.log ('remove all task');
+        this.clearTasks = props.clearTasks;
+        this.removeTasks = props.removeTasks;
     }
 
     render() {
         let floatRight = {
-            float : 'right'
+            float: 'right'
         };
 
         return (
             <div>
-                <RaisedButton label="Clear list" primary={true} onTouchTap={this.clearTaskList.bind(this)}/>
-                <RaisedButton label="Remove all" secondary={true} onTouchTap={this.removeAllTask.bind(this)} style={floatRight}/>
+                <RaisedButton label="Clear list" primary={true} onTouchTap={this.clearTasks}/>
+                <RaisedButton label="Remove all" secondary={true} onTouchTap={this.removeTasks} style={floatRight}/>
             </div>
         )
     }
